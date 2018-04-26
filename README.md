@@ -51,5 +51,8 @@ You can build, push and deploy your function on many ways, but the easiest (I th
     $ faas-cli deploy -f stack.yml
     ```
 
+### Code of Conduct
+You can find Code of Conduct [here](CODE_OF_CONDUCT.md)
+
 ### License
 This project is under the [MIT License](https://github.com/tranotheron/openfaas-bcrypt-hash-verifier/blob/master/LICENSE).
