@@ -1,0 +1,9 @@
+provider:
+  name: faas
+  gateway: http://127.0.0.1:8080
+
+functions:
+  bcrypt:
+    lang: go
+    handler: ./function
+    image: afrael/bcrypt-hash-verifier
