@@ -11,9 +11,9 @@ func verifyHashFromBytes(input []byte) error {
 	bss := bytes.SplitN(input, []byte(" "), 2)
 
 	if len(bss) < 2 {
-		return fmt.Errorf("you need to pass BCrypt hash and password separated by space" +
-			"(for example: $2a$12$Y/98WmHkm3k38/suzvvEUuJ.QVA3oUeks74uTDDGt6JGhTqL/RP0K foo) as a parameter." +
-				"You've passed: %s", string(input))
+		return fmt.Errorf("you need to pass BCrypt hash and password separated by space"+
+			"(for example: $2a$12$Y/98WmHkm3k38/suzvvEUuJ.QVA3oUeks74uTDDGt6JGhTqL/RP0K foo) as a parameter."+
+			"You've passed: %s", string(input))
 	}
 
 	hash := bss[0]

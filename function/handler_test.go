@@ -1,8 +1,8 @@
 package function
 
 import (
-	"testing"
 	"bytes"
+	"testing"
 )
 
 func Test_verifyHashFromBytes(t *testing.T) {
@@ -62,32 +62,32 @@ func Test_verifyHashFromBytes(t *testing.T) {
 
 		{
 			match: false,
-			desc: "no hash and password",
+			desc:  "no hash and password",
 			input: []byte(""),
 		},
 		{
 			match: false,
-			desc: "hash present but no password",
+			desc:  "hash present but no password",
 			input: []byte("$2a$12$Y/98WmHkm3k38/suzvvEUuJ.QVA3oUeks74uTDDGt6JGhTqL/RP0K"),
 		},
 		{
 			match: false,
-			desc: "hash doesn't match password",
+			desc:  "hash doesn't match password",
 			input: []byte("$2a$12$Y/98WmHkm3k38/suzvvEUuJ.QVA3oUeks74uTDDGt6JGhTqL/RP0K foo "),
 		},
 		{
 			match: false,
-			desc: "hash doesn't match password",
+			desc:  "hash doesn't match password",
 			input: []byte("$2a$12$EhgdZn0PRy9div6rAOBFSeNTkD9vmITuLKLD7mREEdo2tFg2Wns7i foobar "),
 		},
 		{
 			match: false,
-			desc: "hash doesn't match password",
+			desc:  "hash doesn't match password",
 			input: []byte("$2a$12$fWH.UrG.U2iX9FqSY8oEdOWHlzxwgaRRfl57X5.MgaFrOVUqgu12K foobar123!@##@%$^%$$@)(*^&%#$@"),
 		},
 		{
 			match: false,
-			desc: "hash is wrong because of space inside",
+			desc:  "hash is wrong because of space inside",
 			input: []byte("$2a$1 2$EhgdZn0PRy9div6rAOBFSeNTkD9vmITuLKLD7mREEdo2tFg2Wns7i foo"),
 		},
 	}
