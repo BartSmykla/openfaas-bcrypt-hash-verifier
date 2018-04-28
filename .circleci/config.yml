@@ -18,7 +18,6 @@ jobs:
             - v1-pkg-cache
 
       - run: go get github.com/jstemmer/go-junit-report
-      - run: go get golang.org/x/crypto/bcrypt
 
       - run:
           name: Run unit tests
