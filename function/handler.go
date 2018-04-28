@@ -1,25 +1,48 @@
 package function
 
 import (
-	"bytes"
+	"encoding/json"
 	"fmt"
 
 	"golang.org/x/crypto/bcrypt"
 )
 
-func verifyHashFromBytes(input []byte) error {
-	bss := bytes.SplitN(input, []byte(" "), 2)
+type Data struct {
+	Hash     string `json:"hash"`
+	Pass     string `json:"pass"`
+	Password string `json:"password"`
+}
 
-	if len(bss) < 2 {
-		return fmt.Errorf("you need to pass BCrypt hash and password separated by space"+
-			"(for example: $2a$12$Y/98WmHkm3k38/suzvvEUuJ.QVA3oUeks74uTDDGt6JGhTqL/RP0K foo) as a parameter."+
-			"You've passed: %s", string(input))
+func (i *Data) getPassword() (string, error) {
+	password := i.Password
+
+	if password == "" {
+		password = i.Pass
 	}
 
-	hash := bss[0]
-	pass := bss[1]
+	if password == "" {
+		return "", fmt.Errorf("there is no password")
+	}
 
-	return bcrypt.CompareHashAndPassword(hash, pass)
+	return password, nil
+}
+
+func verifyHashFromBytes(input []byte) error {
+	var d Data
+
+	json.Unmarshal(input, &d)
+
+	if d.Hash == "" {
+		return fmt.Errorf("you didn't pass hash")
+	}
+
+	pass, err := d.getPassword()
+
+	if err != nil {
+		return fmt.Errorf("you didn't pass password")
+	}
+
+	return bcrypt.CompareHashAndPassword([]byte(d.Hash), []byte(pass))
 }
 
 // Handle a serverless request
