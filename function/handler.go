@@ -25,7 +25,7 @@ func verifyHashFromBytes(input []byte) error {
 // Handle a serverless request
 func Handle(input []byte) string {
 	if err := verifyHashFromBytes(input); err != nil {
-		return fmt.Sprintf(`{"match":false,"error":%s,"passed":%s}`, err.Error(), string(input))
+		return fmt.Sprintf(`{"match":false,"error":"%s","passed":"%s"}`, err.Error(), string(input))
 	}
 
 	return fmt.Sprint(`{"match":true}`)
