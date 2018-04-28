@@ -14,7 +14,7 @@ You also need to have an access to installed [OpenFaaS](https://github.com/openf
 - If you want to build and push function to your own [docker registry](https://docs.docker.com/registry/) (for example [Docker Hub](https://hub.docker.com/)) you need to be logged in your account ([`docker login`](https://docs.docker.com/engine/reference/commandline/login/))
 
 ### Example of deploying function using **faas-cli** using default values from [this repository](https://raw.githubusercontent.com/tranotheron/openfaas-bcrypt-hash-verifier/master/stack.yml)
-```
+```bash
 $ faas-cli deploy -f https://raw.githubusercontent.com/tranotheron/openfaas-bcrypt-hash-verifier/master/stack.yml
 ```
 
@@ -23,12 +23,12 @@ $ faas-cli deploy -f https://raw.githubusercontent.com/tranotheron/openfaas-bcry
 You can build, push and deploy your function on many ways, but the easiest (I think) way I'll try to describe below:
 
 1. Cloning repository
-    ```
+    ```bash
     $ git clone https://github.com/tranotheron/openfaas-bcrypt-hash-verifier
     ```
 
 2. Going into cloned directory
-    ```
+    ```bash
     $ cd openfaas-bcrypt-hash-verifier
     ```
 
@@ -37,22 +37,22 @@ You can build, push and deploy your function on many ways, but the easiest (I th
     You need to open file [stack.yml](stack.yml) and edit gateway url to match your gateway (for example: `http://127.0.0.1:8080`) and set image name to matching yours docker repository (for example: `NICKNAME/openfaas-bcrypt-hash-verifier`)
 
 4. Building function image
-    ```
+    ```bash
     $ faas-cli build -f stack.yml
     ```
 
 5. Pushing built image to docker registry
-    ```
+    ```bash
     $ faas-cli push -f stack.yml
     ```
 
 6. Deploying function to **OpenFaaS**
-    ```
+    ```bash
     $ faas-cli deploy -f stack.yml
     ```
 
 ### Usage with [curl](https://curl.haxx.se/)
-```
+```bash
 $ curl -d '{"hash":"$2a$12$Y/98WmHkm3k38/suzvvEUuJ.QVA3oUeks74uTDDGt6JGhTqL/RP0K","password": "foo"}' -X POST http://localhost:8080/function/bcrypt
 {"match":true}
 
@@ -60,8 +60,50 @@ $ curl -d '{"hash":"$2a$12$Y/98WmHkm3k38/suzvvEUuJ.QVA3oUeks74uTDDGt6JGhTqL/RP0K
 {"match":false,"error":"crypto/bcrypt: hashedPassword is not the hash of the given password"}
 ```
 
+### Possible errors
+- **crypto/bcrypt: hashedPassword is not the hash of the given password**
+
+    Hash doesn't match passed password
+
+- **crypto/bcrypt: bcrypt hashes must start with '$', but hashedSecret started with ' '**
+
+    In that case there is space at the beginning of a hash
+
+- **crypto/bcrypt: hashedSecret too short to be a bcrypted password**
+
+    Passed hash is incorrect, check if you passed all hash and there is no missing characters at the end of it
+
+- **you didn't pass password**
+
+    You probably forgot to put password in the body of your request:
+    ```json
+    { ..., "password": "your_password" }
+    ```
+
+- **you didn't pass hash**
+
+    You probably forgot to put hash in the body of your request
+    ```json
+    { ..., "hash": "your_hash" }
+    ```
+    It can also mean that you didn't pass hash **and** password
+
+- **unexpected end of JSON input**
+
+    You probably forgot to put json with hash and password is body of your request
+    ```json
+    {
+        "password": "your_password",
+        "hash": "your_hash"
+    }
+    ```
+
+- **illegal base64 data at input byte 4** (or other number)
+
+    Passed hash is incorrect. Check if in your hash there is no additional character like space somewhere in the middle of it
+
 ### Tests
-```
+```bash
 $ git clone https://github.com/tranotheron/openfaas-bcrypt-hash-verifier
 $ go test -v ./openfaas-bcrypt-hash-verifier/function
 ```
