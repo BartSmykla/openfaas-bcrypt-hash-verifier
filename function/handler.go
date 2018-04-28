@@ -30,7 +30,11 @@ func (i *Data) getPassword() (string, error) {
 func verifyHashFromBytes(input []byte) error {
 	var d Data
 
-	json.Unmarshal(input, &d)
+	err := json.Unmarshal(input, &d)
+
+	if err != nil {
+		return err
+	}
 
 	if d.Hash == "" {
 		return fmt.Errorf("you didn't pass hash")
@@ -48,7 +52,7 @@ func verifyHashFromBytes(input []byte) error {
 // Handle a serverless request
 func Handle(input []byte) string {
 	if err := verifyHashFromBytes(input); err != nil {
-		return fmt.Sprintf(`{"match":false,"error":"%s","passed":"%s"}`, err.Error(), string(input))
+		return fmt.Sprintf(`{"match":false,"error":"%s"}`, err.Error())
 	}
 
 	return fmt.Sprint(`{"match":true}`)

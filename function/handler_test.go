@@ -7,10 +7,11 @@ import (
 
 func Test_verifyHashFromBytes(t *testing.T) {
 	table := []struct {
-		match bool
-		desc  string
-		hash  string
-		pass  string
+		match  bool
+		desc   string
+		hash   string
+		pass   string
+		format string
 	}{
 		// match
 		{
@@ -71,6 +72,16 @@ func Test_verifyHashFromBytes(t *testing.T) {
 		// not match
 
 		{
+			match:  false,
+			desc:   "malformed json",
+			format: "%s",
+		},
+		{
+			match:  false,
+			desc:   "malformed json (no comma between elements)",
+			format: `{"hash":"%s""password":"%s"}`,
+		},
+		{
 			match: false,
 			desc:  "no hash and password",
 			hash:  "",
@@ -109,6 +120,13 @@ func Test_verifyHashFromBytes(t *testing.T) {
 	}
 
 	for _, c := range table {
+		defaultFormat := `{"hash":"%s","password":"%s"}`
+		format := c.format
+
+		if format == "" {
+			format = defaultFormat
+		}
+
 		if c.match {
 			t.Run(c.desc, func(t *testing.T) {
 				input := []byte(fmt.Sprintf(`{"hash":"%s","password":"%s"}`, c.hash, c.pass))
