@@ -34,7 +34,7 @@ You can build, push and deploy your function on many ways, but the easiest (I th
 
 3. [stack.yml](stack.yml) file adjustments
 
-    You need to open file [stack.yml](stack.yml) and edit gateway url to match your gateway (for example: `http://127.0.0.1:8080`) and set image name to matching yours docker repository (for example: `NICKNAME/openfaas-bcrypt-hash-verifier`)
+    You need to open file [stack.yml](stack.yml) and edit gateway url to match your gateway (for example: `http://127.0.0.1:8080`) and set image name to matching your docker repository (for example: `NICKNAME/openfaas-bcrypt-hash-verifier`)
 
 4. Building function image
     ```bash
