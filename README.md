@@ -11,7 +11,7 @@ To build and deploy `openfaas-bcrypt-hash-verifier` function you need to have in
 - [docker](https://docs.docker.com/install/)
 - [faas-cli](https://github.com/openfaas/faas-cli#get-started-install-the-cli)
 You also need to have an access to installed [OpenFaaS](https://github.com/openfaas/faas#hands-on-labs-detailed-getting-started) (You can do it easly using [Kubernetes](https://github.com/kubernetes/kubernetes#to-start-using-kubernetes) or [Docker Swarm](https://docs.docker.com/engine/swarm/)) know url to [OpenFaaS Gateway](https://github.com/openfaas/faas/tree/master/gateway)
-- If you want to build and push function to your own [docker registry](https://docs.docker.com/registry/) (for example [Docker Hub](https://hub.docker.com/)) you need to be logged in your account ([`docker login`](https://docs.docker.com/engine/reference/commandline/login/))
+- If you want to build and push a function to your own [docker registry](https://docs.docker.com/registry/) (for example [Docker Hub](https://hub.docker.com/)) you need to be logged in your account ([`docker login`](https://docs.docker.com/engine/reference/commandline/login/))
 
 ### Example of deploying function using **faas-cli** using default values from [this repository](https://raw.githubusercontent.com/tranotheron/openfaas-bcrypt-hash-verifier/master/stack.yml)
 ```bash
@@ -20,7 +20,7 @@ $ faas-cli deploy -f https://raw.githubusercontent.com/tranotheron/openfaas-bcry
 
 ### Example of building and using function from own docker registry
 
-You can build, push and deploy your function on many ways, but the easiest (I think) way I'll try to describe below:
+You can build, push and deploy your function on many ways, but the easiest (I think) I'll try to describe below:
 
 1. Cloning repository
     ```bash
