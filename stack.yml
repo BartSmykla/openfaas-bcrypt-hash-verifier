@@ -7,3 +7,5 @@ functions:
     lang: go
     handler: ./function
     image: afrael/bcrypt-hash-verifier
+    secrets:
+      - secrets.yml
